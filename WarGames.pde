@@ -9,10 +9,16 @@ static final int MAPSIZE = 1 << 8; // must be a power of two
 float map[][] = new float[MAPSIZE + 1][MAPSIZE + 1]; // 0 to MAPSIZE (inclusive)
 int threshold;
 
+Bases bases = new Bases();
+Paths paths = new Paths();
+
 void setup() {
-  size(512, 512, P2D);
+  size(1000, 800, P2D);
   screen = createGraphics(width, height);
   generate();
+  bases.init();
+  // add a path
+  paths.add();
 }
 
 // generates a terrain using diamond-square
@@ -42,7 +48,7 @@ void generate() {
       }
     }
   }
-  // calculate threshold so that 50% of the screen is water
+  // calculate threshold so that n% of the screen is water
   int[] count = new int[500];
   for (int y = 0 ; y < MAPSIZE ; y++) {
     for (int x = 0 ; x < MAPSIZE ; x++) {
@@ -61,10 +67,18 @@ void generate() {
       break;
     }
   }
-  noLoop();
 }
 
 void draw() {
+  background(0);
+  bases.draw();
+  paths.draw();
+  if (random(100) < 1) {
+    paths.add();
+  }
+}
+
+void drawLandscape() {
   for (int y = 0 ; y < MAPSIZE ; y++) {
     for (int x = 0 ; x < MAPSIZE ; x++) {
       if (map[x][y] < threshold) {
