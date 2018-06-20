@@ -11,6 +11,7 @@ int threshold;
 
 Bases bases = new Bases();
 Paths paths = new Paths();
+Explosions explosions = new Explosions();
 
 void setup() {
   size(1000, 800, P2D);
@@ -73,6 +74,7 @@ void draw() {
   background(0);
   bases.draw();
   paths.draw();
+  explosions.draw();
   if (random(100) < 1) {
     paths.add();
   }

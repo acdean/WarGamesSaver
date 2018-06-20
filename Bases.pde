@@ -21,6 +21,7 @@ class Bases {
 
 class Base {
   PVector p; // pos
+  boolean enabled = true;
   
   Base() {
     // random for now, later they should be spaced
@@ -30,7 +31,11 @@ class Base {
   // just a cross for now
   void draw() {
     strokeWeight(3);
-    stroke(0, 255, 0);
+    if (enabled) {
+      stroke(0, 255, 0);
+    } else {
+      stroke(255, 0, 0);
+    }
     line(p.x - 10, p.y - 10, p.x + 10, p.y + 10);
     line(p.x + 10, p.y - 10, p.x - 10, p.y + 10);
   }

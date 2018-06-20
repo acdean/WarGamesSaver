@@ -2,7 +2,11 @@ class Paths {
   ArrayList<Path> paths = new ArrayList<Path>();
   
   void add() {
-    paths.add(new Path());
+    Path path = new Path();
+    // only add valid paths
+    if (path != null && path.start != null) {
+      paths.add(new Path());
+    }
   }
   
   void draw() {
@@ -10,6 +14,9 @@ class Paths {
       if (paths.get(i).draw() == true) {
         // finished, so delete
         println("deleting...");
+        // disable the target
+        paths.get(i).end.enabled = false;
+        // remove the path
         paths.remove(i);
       }
     }
@@ -17,14 +24,30 @@ class Paths {
 }
 
 class Path {
+  static final float SPEED = .01;
+  static final int NUMBER_ATTEMPTS = 10;
+
   Base start, end;
   PVector p1, p2;
   float count;
-  float delta = .001;
+  float delta = SPEED;
   
   Path() {
     // TODO should be different sides
-    start = bases.get((int)random(Bases.BASES));
+    start = null;
+    // try several times to find a still live source
+    for (int i = 0 ; i < NUMBER_ATTEMPTS ; i++) {
+      start = bases.get((int)random(Bases.BASES));
+      if (start.enabled == true) {
+        break;
+      } else {
+        start = null;
+      }
+    }
+    if (start == null) {
+      // didn't find one
+      return;
+    }
     do {
       end = bases.get((int)random(Bases.BASES));
     } while (start == end);
@@ -38,6 +61,8 @@ class Path {
     //println("path:", count);
     count += delta;
     if (count >= 1) {
+      // done, explode
+      explosions.add(end.get());
       return true;
     }
     int dash = 0;
