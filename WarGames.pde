@@ -149,6 +149,12 @@ void draw2() {
   noLoop();
 }
 
+void keyPressed() {
+  if (key == 's') {
+    saveFrame("frame####.png");
+  }
+}
+
 void mousePressed() {
   generate();
   redraw();
