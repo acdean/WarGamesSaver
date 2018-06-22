@@ -14,7 +14,7 @@ Paths paths = new Paths();
 Explosions explosions = new Explosions();
 
 void setup() {
-  size(1000, 800, P2D);
+  size(1800, 1000, P2D);
   screen = createGraphics(width, height);
   generate();
   bases.init();
@@ -75,7 +75,7 @@ void draw() {
   bases.draw();
   paths.draw();
   explosions.draw();
-  if (random(100) < 1) {
+  if (random(5) < 1) {
     paths.add();
   }
 }
@@ -222,3 +222,8 @@ void square(int x, int y, int size) {
   // 4 is the average of C D m and down
   map[x4][y4] = (map[xc][yc] + map[xd][yd] + map[xm][ym] + map[xm][ydown]) / 4 + random(-FACTOR, FACTOR); // 4
 }
+
+void debug(Object ... s) {
+  //println(s);
+}
+

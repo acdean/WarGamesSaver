@@ -13,7 +13,7 @@ class Paths {
     for (int i = paths.size() - 1 ; i >= 0 ; i--) {
       if (paths.get(i).draw() == true) {
         // finished, so delete
-        println("deleting...");
+        debug("deleting...");
         // disable the target
         paths.get(i).end.enabled = false;
         // remove the path
@@ -53,7 +53,7 @@ class Path {
     } while (start == end);
     p1 = start.get().copy().sub(0, 200);
     p2 = end.get().copy().sub(0, 200);
-    println(p1, p2);
+    debug(p1, p2);
     count = 0;
   }
   
@@ -79,3 +79,4 @@ class Path {
     return false;
   }
 }
+

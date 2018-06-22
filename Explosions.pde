@@ -11,7 +11,7 @@ class Explosions {
     for (int i = explosions.size() - 1 ; i >= 0 ; i--) {
       if (explosions.get(i).draw() == true) {
         // finished, so delete
-        println("deleting Explosion...");
+        debug("deleting Explosion...");
         explosions.remove(i);
       }
     }
@@ -51,3 +51,4 @@ class Explosion {
     return false; // not finished
   }
 }
+
