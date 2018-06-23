@@ -34,7 +34,7 @@ class Explosion {
   Explosion(float x, float y) {
     p = new PVector(x, y);
     radius   = random(MIN_RADIUS, MAX_RADIUS);
-    //  println("Explosion", p);
+    debug("Explosion", p);
   }
   
   // white filled circle of given size
@@ -42,7 +42,7 @@ class Explosion {
   boolean draw() {
     //println("Draw Explosion", count);
     count += delta;
-    if (count >= PI) {
+    if (count >= HALF_PI) {
       return true; // finished
     }
     stroke(255);

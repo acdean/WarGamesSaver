@@ -33,11 +33,12 @@ class Path {
   float delta = SPEED;
   
   Path() {
-    // TODO should be different sides
     start = null;
     // try several times to find a still live source
+    int team = Bases.RED;
     for (int i = 0 ; i < NUMBER_ATTEMPTS ; i++) {
-      start = bases.get((int)random(Bases.BASES));
+      team = (int)random(2);
+      start = bases.getRandom(team);
       if (start.enabled == true) {
         break;
       } else {
@@ -48,9 +49,9 @@ class Path {
       // didn't find one
       return;
     }
-    do {
-      end = bases.get((int)random(Bases.BASES));
-    } while (start == end);
+    // pick an end point on the other team (dead or not)
+    end = bases.getRandom(team ^ 1);
+    // control points for the bezier curve
     p1 = start.get().copy().sub(0, 200);
     p2 = end.get().copy().sub(0, 200);
     debug(p1, p2);
