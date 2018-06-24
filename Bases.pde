@@ -53,7 +53,8 @@ PShape triangleShape;
 PShape missileShape;
 PShape starShape;
 PShape circleShape;
-PShape subShape;
+PShape subShapeR;
+PShape subShapeL;
 
 class Base {
   static final int TRIANGLE = 0;
@@ -61,9 +62,12 @@ class Base {
   static final int STAR = 2;
   static final int CIRCLE = 3;
   static final int SHAPES = 4; // chose from the above 4 shapes only
-  static final int SUBMARINE = -1; // blue team is all subs
+  static final int SUBMARINE_R = -1; // blue team is all subs
+  static final int SUBMARINE_L = -2; // subs are directional
   static final float SIZE = 20;
-  
+  static final float SUB_W = SIZE * 2; // half the width of the sub
+  static final float SUB_H = SUB_W / 8; // half the height of the sub
+
   PVector p; // pos
   boolean enabled = true;
   int type;
@@ -108,9 +112,42 @@ class Base {
     if (circleShape == null) {
       circleShape = polygon(8);
     }
-    if (subShape == null) {
-      // TODO
-      subShape = polygon(7, 3.5);
+    if (subShapeL == null) {
+      subShapeL = createShape();
+      subShapeL.beginShape(POLYGON);
+      subShapeL.stroke(255, 0, 0);
+      subShapeL.strokeWeight(3);
+      subShapeL.noFill();
+      subShapeL.vertex(SUB_W * .75, -SUB_H);
+      subShapeL.vertex(SUB_W, 0);  // pointy end
+      subShapeL.vertex(SUB_W * .75, SUB_H);
+      subShapeL.vertex(-SUB_W * .75, SUB_H);
+      subShapeL.vertex(-SUB_W, -SUB_H);
+      subShapeL.vertex(-SUB_W, SUB_H);
+      subShapeL.vertex(-SUB_W * .75, -SUB_H);
+      subShapeL.vertex(0, -SUB_H);
+      subShapeL.vertex(0, -SUB_H * 2);
+      subShapeL.vertex(SUB_W * .25, -SUB_H * 2);
+      subShapeL.vertex(SUB_W * .25, -SUB_H);
+      subShapeL.endShape(CLOSE);
+      // no easy way to copy a shape
+      subShapeR = createShape();
+      subShapeR.beginShape(POLYGON);
+      subShapeR.stroke(255, 0, 0);
+      subShapeR.strokeWeight(3);
+      subShapeR.noFill();
+      subShapeR.vertex(-SUB_W * .75, -SUB_H);
+      subShapeR.vertex(-SUB_W, 0);  // pointy end
+      subShapeR.vertex(-SUB_W * .75, SUB_H);
+      subShapeR.vertex(SUB_W * .75, SUB_H);
+      subShapeR.vertex(SUB_W, -SUB_H);
+      subShapeR.vertex(SUB_W, SUB_H);
+      subShapeR.vertex(SUB_W * .75, -SUB_H);
+      subShapeR.vertex(0, -SUB_H);
+      subShapeR.vertex(0, -SUB_H * 2);
+      subShapeR.vertex(-SUB_W * .25, -SUB_H * 2);
+      subShapeR.vertex(-SUB_W * .25, -SUB_H);
+      subShapeR.endShape(CLOSE);
     }
   }
 
@@ -119,11 +156,18 @@ class Base {
     if (team == Bases.RED) {
       type = (int)random(SHAPES);
     } else {
-      type = SUBMARINE;
+      if (p.x > width / 2) {
+        type = SUBMARINE_R;
+      } else {
+        type = SUBMARINE_L;
+      }
     }
     switch (type) {
-      case SUBMARINE:
-        s = subShape;
+      case SUBMARINE_R:
+        s = subShapeR;
+        break;
+      case SUBMARINE_L:
+        s = subShapeL;
         break;
       case TRIANGLE:
         s = triangleShape;
@@ -176,4 +220,3 @@ class Base {
     return p;
   }
 }
-
